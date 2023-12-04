@@ -26,9 +26,9 @@ sudo install -m 755 runc.amd64 /usr/local/sbin/runc
 sudo  mkdir -p /opt/cni/bin
 wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz
 sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.3.0.tgz
-sudo containerd config default > /home/debian/containerd-config.toml
-sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /home/debian/containerd-config.toml
-sudo mv /home/debian/containerd-config.toml /etc/containerd/config.toml
+sudo containerd config default > /home/ubuntu/containerd-config.toml
+sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /home/ubuntu/containerd-config.toml
+sudo mv /home/ubuntu/containerd-config.toml /etc/containerd/config.toml
 
 # Redémarrage et activation de containerd
 sudo systemctl restart containerd
