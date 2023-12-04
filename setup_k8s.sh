@@ -45,7 +45,7 @@ sudo mv "$HOME/containerd-config.toml" /etc/containerd/config.toml
 sudo systemctl restart containerd
 sudo systemctl enable containerd
 
-Configuration de sysctl pour Kubernetes
+#Configuration de sysctl pour Kubernetes
 cat <<EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.ipv4.ip_forward                 = 1
@@ -79,4 +79,10 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 # Activation du service kubelet
 sudo systemctl enable kubelet
+# Append the configuration to disable IPv6 to sysctl.conf
+echo "net.ipv6.conf.all.disable_ipv6 = 0" | sudo tee -a /etc/sysctl.conf
+
+# Reload sysctl configuration to apply changes
+sudo sysctl -p
+echo "IPv6 Enabled successfully."
 echo 'Finish !!'
