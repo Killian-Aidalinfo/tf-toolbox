@@ -53,6 +53,7 @@ net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 sudo sysctl --system
 # Append the configuration to disable IPv6 to sysctl.conf
+# Disable ipv6 for curl key gpg key 
 echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
 
 # Reload sysctl configuration to apply changes
