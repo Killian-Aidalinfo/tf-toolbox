@@ -31,9 +31,15 @@ sudo install -m 755 runc.amd64 /usr/local/sbin/runc
 sudo  mkdir -p /opt/cni/bin
 wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz
 sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.3.0.tgz
-sudo containerd config default > /home/ubuntu/containerd-config.toml
-sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /home/ubuntu/containerd-config.toml
-sudo mv /home/ubuntu/containerd-config.toml /etc/containerd/config.toml
+# Générer la configuration par défaut de containerd
+sudo containerd config default > "$HOME/containerd-config.toml"
+
+# Modifier la configuration pour utiliser SystemdCgroup
+sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' "$HOME/containerd-config.toml"
+
+# Déplacer la configuration modifiée vers le répertoire de configuration de containerd
+sudo mv "$HOME/containerd-config.toml" /etc/containerd/config.toml
+
 
 # Redémarrage et activation de containerd
 sudo systemctl restart containerd
