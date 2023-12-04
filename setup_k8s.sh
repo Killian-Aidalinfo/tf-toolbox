@@ -5,7 +5,7 @@
 hostname=$(hostname)
 
 # Obtenir l'adresse IP publique
-public_ip=$(curl -s http://ifconfig.me)
+public_ip=$(curl -s http://ipinfo.io/ip)
 
 # Ajouter l'IP publique et le nom d'hôte à /etc/hosts
 echo "$public_ip $hostname" | sudo tee -a /etc/hosts
