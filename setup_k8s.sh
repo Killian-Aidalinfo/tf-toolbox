@@ -1,9 +1,14 @@
 #!/bin/bash
 
 # # Configuration de /etc/hosts
-# echo "172.16.4.90 kubmaster.demo" | sudo tee -a /etc/hosts
-# echo "172.16.4.91 kubworker1.demo" | sudo tee -a /etc/hosts
-# echo "172.16.4.92 kubworker2.demo" | sudo tee -a /etc/hosts
+# Obtenir le nom d'hôte de la machine
+hostname=$(hostname)
+
+# Obtenir l'adresse IP publique
+public_ip=$(curl -s http://ifconfig.me)
+
+# Ajouter l'IP publique et le nom d'hôte à /etc/hosts
+echo "$public_ip $hostname" | sudo tee -a /etc/hosts
 
 # Configuration des modules pour containerd
 sudo modprobe overlay
