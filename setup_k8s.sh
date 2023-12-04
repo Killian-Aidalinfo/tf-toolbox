@@ -41,7 +41,13 @@ net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 sudo sysctl --system
+# Append the configuration to disable IPv6 to sysctl.conf
+echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
 
+# Reload sysctl configuration to apply changes
+sudo sysctl -p
+echo "IPv6 disabled successfully."
+# Configuration des iptables
 # Désactivation du Swap
 sudo swapoff -a
 sudo sed -i '/ swap / s/^/#/' /etc/fstab
@@ -54,7 +60,7 @@ sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg gnupg
 sudo mkdir -m 755 /etc/apt/keyrings
 # Ajout du dépôt Kubernetes et installation des paquets
-curl -O https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 # This overwrites any existing configuration in /etc/apt/sources.list.d/kubernetes.list
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
