@@ -1,2 +1,2 @@
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-kubeadm init --apiserver-advertise-address=1.2.3.4 --apiserver-cert-extra-sans=1.2.3.4 --pod-network-cidr=192.168.0.0/16 --node-name $(hostname) 
+kubeadm init --apiserver-advertise-address=1.2.3.4 --apiserver-cert-extra-sans=1.2.3.4 --pod-network-cidr=192.168.0.0/16 --node-name $(hostname)
