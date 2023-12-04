@@ -33,7 +33,7 @@ wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni
 sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.3.0.tgz
 # Générer la configuration par défaut de containerd
 sudo containerd config default > "$HOME/containerd-config.toml"
-
+sudo mkdir -p /etc/containerd
 # Modifier la configuration pour utiliser SystemdCgroup
 sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' "$HOME/containerd-config.toml"
 
