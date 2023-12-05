@@ -96,6 +96,6 @@ sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
 
-# sudo kubeadm init --apiserver-advertise-address=$public_ip --apiserver-cert-extra-sans=$public_ip --pod-network-cidr=192.168.0.0/16 --node-name $hostname
-
+sudo kubeadm init --apiserver-advertise-address=$public_ip --apiserver-cert-extra-sans=$public_ip --pod-network-cidr=192.168.0.0/16 --node-name $hostname
+sudo cilium install
 echo 'Finish !!'
