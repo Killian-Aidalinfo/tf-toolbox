@@ -82,7 +82,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable kubelet
 # Append the configuration to disable IPv6 to sysctl.conf
 echo "net.ipv6.conf.all.disable_ipv6 = 0" | sudo tee -a /etc/sysctl.conf
-
+sudo apt install wireguard -y 
 # Reload sysctl configuration to apply changes
 sudo sysctl -p
 echo "IPv6 Enabled successfully."
