@@ -46,12 +46,11 @@ sudo docker compose up -d | sudo tee -a $LOG_FILE
 ##Configuration users couchdb
 echo "Configuration users couchdb..." | sudo tee -a $LOG_FILE
 cd /home/debian/cyberday-cs-custom/
-chmox +x setupCouch.sh
-./setupCouch.sh | sudo tee -a $LOG_FILE
+sudo chmod +x setupCouch.sh
+sudo ./setupCouch.sh | sudo tee -a $LOG_FILE
 
 # Ajouter des paramètres à local.ini
-echo "[chttpd]" | sudo tee -a /etc/couchdb/config/local.ini
-echo "authentication_handlers = {chttpd_auth, proxy_authentication_handler}, {chttpd_auth, default_authentication_handler}" | sudo tee -a /etc/couchdb/config/local.ini
+sudo awk '/\[chttpd\]/{f=1} f && /^$/{if(!a++)print "authentication_handlers = {chttpd_auth, proxy_authentication_handler}, {chttpd_auth, default_authentication_handler}";next} 1; END{if(!f){print "[chttpd]\nauthentication_handlers = {chttpd_auth, proxy_authentication_handler}, {chttpd_auth, default_authentication_handler}";}}' /etc/couchdb/config/local.ini
 
 
 echo "Configuration terminée avec succès!" | sudo tee -a $LOG_FILE
