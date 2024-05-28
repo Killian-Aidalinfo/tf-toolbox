@@ -39,7 +39,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 # Configuration de Docker Compose pour CouchDB
 echo "Configuration de Docker Compose pour CouchDB..." | sudo tee -a $LOG_FILE
 sudo mkdir -p /home/debian/docker | sudo tee -a $LOG_FILE
-sudo cp /home/debian/cyberday-cs-custom/docker-compose.yml /home/debian/docker | sudo tee -a $LOG_FILE
+sudo cp /home/debian/cyberday-cs-custom/docker-compose.yaml /home/debian/docker | sudo tee -a $LOG_FILE
 cd /home/debian/docker | sudo tee -a $LOG_FILE
 sudo docker compose up -d | sudo tee -a $LOG_FILE
 
