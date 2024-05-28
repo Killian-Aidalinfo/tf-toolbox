@@ -11,14 +11,21 @@ curl -s https://install.crowdsec.net | sudo sh | sudo tee -a $LOG_FILE
 sudo apt install -y crowdsec | sudo tee -a $LOG_FILE
 sudo apt install -y crowdsec-firewall-bouncer | sudo tee -a $LOG_FILE
 
-# Ajout du bouncer CrowdSec
-echo "Ajout du bouncer pour CrowdSec..." | sudo tee -a $LOG_FILE
-API_KEY=$(sudo cscli bouncers add fwBouncer | grep 'Api key for' | cut -d':' -f2 | xargs)
-echo "API Key récupérée: $API_KEY" | sudo tee -a $LOG_FILE
+# Clonage du dépôt Git pour CrowdSec custom parsers et scénarios
+echo "Clonage du dépôt Git..." | sudo tee -a $LOG_FILE
+sudo git clone https://github.com/Killian-Aidalinfo/cyberday-cs-custom /home/debian
+cd /home/debian/cyberday-cs-custom/cs-custom-security
 
-#Configuration du bouncer
-echo "Configuration du bouncer..." | sudo tee -a $LOG_FILE
-sudo sed -i "s/api_key: ${API_KEY}/api_key: $API_KEY/" /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml | sudo tee -a $LOG_FILE
+# Copie des parsers et scénarios personnalisés de CrowdSec
+echo "Copie des parsers et scénarios personnalisés..." | sudo tee -a $LOG_FILE
+sudo cp parsers-bf-couchdb.yaml /etc/crowdsec/parsers/s01-parse | sudo tee -a $LOG_FILE
+sudo cp scenario-bf-couchdb.yaml /etc/crowdsec/scenarios | sudo tee -a $LOG_FILE
+
+# Préparation de la configuration de CouchDB
+echo "Préparation de la configuration de CouchDB..." | sudo tee -a $LOG_FILE
+sudo mkdir -p /etc/couchdb | sudo tee -a $LOG_FILE
+sudo mkdir -p /etc/couchdb/config | sudo tee -a $LOG_FILE
+sudo cp /home/debian/cyberday-cs-custom/config-couchdb/local.ini /etc/couchdb/config | sudo tee -a $LOG_FILE
 
 # Installation de Docker
 echo "Installation de Docker..." | sudo tee -a $LOG_FILE
@@ -29,8 +36,11 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt-get update | sudo tee -a $LOG_FILE
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin | sudo tee -a $LOG_FILE
 
-# Tester Docker
-echo "Test de Docker avec l'exécution de hello-world..." | sudo tee -a $LOG_FILE
-sudo docker run hello-world | sudo tee -a $LOG_FILE
+# Configuration de Docker Compose pour CouchDB
+echo "Configuration de Docker Compose pour CouchDB..." | sudo tee -a $LOG_FILE
+sudo mkdir -p /home/debian/docker | sudo tee -a $LOG_FILE
+sudo cp /home/debian/cyberday-cs-custom/docker-compose.yml /home/debian/docker | sudo tee -a $LOG_FILE
+cd /home/debian/docker | sudo tee -a $LOG_FILE
+sudo docker compose up -d | sudo tee -a $LOG_FILE
 
 echo "Configuration terminée avec succès!" | sudo tee -a $LOG_FILE
