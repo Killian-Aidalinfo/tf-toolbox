@@ -49,4 +49,9 @@ cd /home/debian/cyberday-cs-custom/
 chmox +x setupCouch.sh
 ./setupCouch.sh | sudo tee -a $LOG_FILE
 
+# Ajouter des paramètres à local.ini
+echo "[chttpd]" | sudo tee -a /etc/couchdb/config/local.ini
+echo "authentication_handlers = {chttpd_auth, proxy_authentication_handler}, {chttpd_auth, default_authentication_handler}" | sudo tee -a /etc/couchdb/config/local.ini
+
+
 echo "Configuration terminée avec succès!" | sudo tee -a $LOG_FILE
