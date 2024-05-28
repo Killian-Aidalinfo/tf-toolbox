@@ -43,4 +43,10 @@ sudo cp /home/debian/cyberday-cs-custom/docker-compose.yml /home/debian/docker |
 cd /home/debian/docker | sudo tee -a $LOG_FILE
 sudo docker compose up -d | sudo tee -a $LOG_FILE
 
+##Configuration users couchdb
+echo "Configuration users couchdb..." | sudo tee -a $LOG_FILE
+cd /home/debian/cyberday-cs-custom/
+chmox +x setupCouch.sh
+./setupCouch.sh | sudo tee -a $LOG_FILE
+
 echo "Configuration terminée avec succès!" | sudo tee -a $LOG_FILE
