@@ -11,14 +11,14 @@ curl -s https://install.crowdsec.net | sudo sh | sudo tee -a $LOG_FILE
 sudo apt install -y crowdsec | sudo tee -a $LOG_FILE
 sudo apt install -y crowdsec-firewall-bouncer | sudo tee -a $LOG_FILE
 
-# # Ajout du bouncer CrowdSec
-# echo "Ajout du bouncer pour CrowdSec..." | sudo tee -a $LOG_FILE
-# API_KEY=$(sudo cscli bouncers add fwBouncer | grep 'Api key for' | cut -d':' -f2 | xargs)
-# echo "API Key récupérée: $API_KEY" | sudo tee -a $LOG_FILE
+# Ajout du bouncer CrowdSec
+echo "Ajout du bouncer pour CrowdSec..." | sudo tee -a $LOG_FILE
+API_KEY=$(sudo cscli bouncers add fwBouncer | grep 'Api key for' | cut -d':' -f2 | xargs)
+echo "API Key récupérée: $API_KEY" | sudo tee -a $LOG_FILE
 
-# Configuration du bouncer
-# echo "Configuration du bouncer..." | sudo tee -a $LOG_FILE
-# sudo sed -i "s/api_key: your_api_key/api_key: $API_KEY/" /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml | sudo tee -a $LOG_FILE
+#Configuration du bouncer
+echo "Configuration du bouncer..." | sudo tee -a $LOG_FILE
+sudo sed -i "s/api_key: ${API_KEY}/api_key: $API_KEY/" /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml | sudo tee -a $LOG_FILE
 
 # Installation de Docker
 echo "Installation de Docker..." | sudo tee -a $LOG_FILE
