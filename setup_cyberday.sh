@@ -13,7 +13,7 @@ sudo apt install -y crowdsec-firewall-bouncer | sudo tee -a $LOG_FILE
 
 # Clonage du dépôt Git pour CrowdSec custom parsers et scénarios
 echo "Clonage du dépôt Git..." | sudo tee -a $LOG_FILE
-sudo git clone https://github.com/Killian-Aidalinfo/cyberday-cs-custom /home/debian
+sudo git clone https://github.com/Killian-Aidalinfo/cyberday-cs-custom /home/debian/cyberday-cs-custom | sudo tee -a $LOG_FILE
 cd /home/debian/cyberday-cs-custom/cs-custom-security
 
 # Copie des parsers et scénarios personnalisés de CrowdSec
