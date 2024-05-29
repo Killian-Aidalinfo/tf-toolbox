@@ -9,7 +9,7 @@ echo "Début du script de configuration" | sudo tee -a $LOG_FILE
 echo "Installation de CrowdSec..." | sudo tee -a $LOG_FILE
 curl -s https://install.crowdsec.net | sudo sh | sudo tee -a $LOG_FILE
 sudo apt install -y crowdsec | sudo tee -a $LOG_FILE
-sudo apt install -y crowdsec-firewall-bouncer | sudo tee -a $LOG_FILE
+sudo apt install -y crowdsec-firewall-bouncer-iptables | sudo tee -a $LOG_FILE
 
 # Clonage du dépôt Git pour CrowdSec custom parsers et scénarios
 echo "Clonage du dépôt Git..." | sudo tee -a $LOG_FILE
