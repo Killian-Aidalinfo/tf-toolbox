@@ -14,12 +14,11 @@ sudo apt install -y crowdsec-firewall-bouncer-iptables | sudo tee -a $LOG_FILE
 # Clonage du dépôt Git pour CrowdSec custom parsers et scénarios
 echo "Clonage du dépôt Git..." | sudo tee -a $LOG_FILE
 sudo git clone https://github.com/Killian-Aidalinfo/cyberday-cs-custom /home/debian/cyberday-cs-custom | sudo tee -a $LOG_FILE
-cd /home/debian/cyberday-cs-custom/cs-custom-security
 
 # Copie des parsers et scénarios personnalisés de CrowdSec
 echo "Copie des parsers et scénarios personnalisés..." | sudo tee -a $LOG_FILE
-sudo cp parsers-bf-couchdb.yaml /etc/crowdsec/parsers/s01-parse | sudo tee -a $LOG_FILE
-sudo cp scenario-bf-couchdb.yaml /etc/crowdsec/scenarios | sudo tee -a $LOG_FILE
+sudo cp /home/debian/cyberday-cs-custom/cs-custom-security/parsers-bf-couchdb.yaml /etc/crowdsec/parsers/s01-parse | sudo tee -a $LOG_FILE
+sudo cp /home/debian/cyberday-cs-custom/cs-custom-security/scenario-bf-couchdb.yaml /etc/crowdsec/scenarios | sudo tee -a $LOG_FILE
 
 # Préparation de la configuration de CouchDB
 echo "Préparation de la configuration de CouchDB..." | sudo tee -a $LOG_FILE
@@ -45,12 +44,16 @@ sudo docker compose up -d | sudo tee -a $LOG_FILE
 
 ##Configuration users couchdb
 echo "Configuration users couchdb..." | sudo tee -a $LOG_FILE
-cd /home/debian/cyberday-cs-custom/
-sudo chmod +x setupCouch.sh
-sudo ./setupCouch.sh | sudo tee -a $LOG_FILE
+sudo chmod +x /home/debian/cyberday-cs-custom/setupCouch.sh
+sudo /home/debian/cyberday-cs-custom/setupCouch.sh | sudo tee -a $LOG_FILE
 
 # Ajouter des paramètres à local.ini
 sudo awk '/\[chttpd\]/{f=1} f && /^$/{if(!a++)print "authentication_handlers = {chttpd_auth, proxy_authentication_handler}, {chttpd_auth, default_authentication_handler}";next} 1; END{if(!f){print "[chttpd]\nauthentication_handlers = {chttpd_auth, proxy_authentication_handler}, {chttpd_auth, default_authentication_handler}";}}' /etc/couchdb/config/local.ini
 
+sudo rm /etc/crowdsec/acquis.yaml | sudo tee -a $LOG_FILE
+
+sudo cp /home/debian/cyberday-cs-custom/cs-custom-security/acquis.yaml /etc/crowdsec/acquis.yaml | sudo tee -a $LOG_FILE
+
+sudo systemctl restart crowdsec | sudo tee -a $LOG_FILE
 
 echo "Configuration terminée avec succès!" | sudo tee -a $LOG_FILE
